@@ -1,0 +1,309 @@
+# GS BANK #
+
+# ŞAHISLARIN VE KURUMUN GERÇEKLİKLE HİÇBİR ALAKASI YOKTUR. TAMAMEN HAYAL ÜRÜNÜDÜR.
+
+###GS BANK ÇALIŞANLARININ ORGANİZASYON SİSTEMİ###
+class Calisan:
+    calisanSayisi = 0
+
+    def __init__(self, isim, soyisim, dogum_yili, dogum_yeri, bitirdigi_okul, bitirdigi_bolum,kac_yildir_burada_calisiyor, maas):
+        self.isim = isim
+        self.soyisim = soyisim
+        self.dogum_yili = dogum_yili
+        self.dogum_yeri = dogum_yeri
+        self.bitirdigi_okul = bitirdigi_okul
+        self.bitirdigi_bolum = bitirdigi_bolum
+        self.kac_yildir_burada_calisiyor = kac_yildir_burada_calisiyor
+        self.email = isim + soyisim + "@gsbank.com"
+        self.maas = maas
+        Calisan.calisanSayisi += 1  # bu sayede toplamda kaç çalışanımız olacağını öğreneceğiz.
+
+    def maasZammi(self, a):
+        self.maas = self.maas + (self.maas * a / 100) #Çalışanların maaşına bireysel olarak zam yapılmak istendiğinde kullanılacak.
+
+    def kac_calisan_var():
+        print(f"Bankamızda aktif olarak {Calisan.calisanSayisi} çalışan ve 1 tane CEO var.")
+
+    def bilgileri_goster(self):  # KİŞİSEL BİLGİLERİ GÖSTERİR
+        return "Isim : {}  / Soyisim : {} / Dogum Yili : {} / Dogum Yeri : {} / Bitirdigi Okul : {} / Bitirdigi Bolum : {} / Kaç Yıldır Burada : {} / Email : {} / Maaş : {}".format(
+            self.isim, self.soyisim, self.dogum_yili, self.dogum_yeri, self.bitirdigi_okul, self.bitirdigi_bolum,
+            self.kac_yildir_burada_calisiyor, self.email, self.maas)
+
+
+# Calisan classından miras alarak yönetici yaratıyoruz
+class Yonetici(Calisan):
+    def __init__(self, departman, isim, soyisim, dogum_yili, dogum_yeri, bitirdigi_okul, bitirdigi_bolum, master,
+                 kac_yildir_burada_calisiyor, maas, calisanlar=None):
+        super().__init__(isim, soyisim, dogum_yili, dogum_yeri, bitirdigi_okul, bitirdigi_bolum,
+                         kac_yildir_burada_calisiyor, maas)
+        self.departman = departman  # KİŞİSEL BİLGİLERE SORUMLU OLDUĞU DEPARTMANI EKLER
+        self.master = master  # KİŞİSEL BİLGİLERE MASTER YAPTIĞI OKULU EKLER
+        if calisanlar == None:  # KİŞİSEL BİLGİLERE SORUMLU OLDUĞU ÇALIŞANLARI EKLER
+            self.calisanlar = []
+        else:
+            self.calisanlar = calisanlar
+
+    def bilgileri_goster(self):  # KİŞİSEL BİLGİLERİ GÖSTERİR
+        return "Departman : {} / Isim : {}  / Soyisim : {} / Dogum Yili : {} / Dogum Yeri : {} / Bitirdigi Okul : {} / Bitirdigi Bolum : {} / Kaç Yıldır Burada : {} / Master : {} / Email : {} / Maas : {}".format(
+            self.departman, self.isim, self.soyisim, self.dogum_yili, self.dogum_yeri, self.bitirdigi_okul,
+            self.bitirdigi_bolum, self.master, self.kac_yildir_burada_calisiyor, self.email, self.maas)
+
+    def calisan_ekle(self, calisan):  # BELİRLENEN YÖNETİCİNİN ALTINDA OLAN ÇALIŞANLARI EKLER
+        if calisan not in self.calisanlar:
+            self.calisanlar.append(calisan)
+
+    def calisan_sil(self, calisan):  # BELİRLENEN YÖNETİCİNİN ALTINDA OLAN ÇALIŞANLARI SİLER
+        if calisan in self.calisanlar:
+            self.calisanlar.remove(calisan)
+
+    def calisanlari_goster(self):  # BELİRLENEN YÖNETİCİNİN ALTINDA OLAN ÇALIŞANLARI GOSTERİR
+        for calisan in self.calisanlar:
+            print(calisan.bilgileri_goster())
+
+
+# BURADA YÖNETİCİLERİ YARATIYORUZ
+yonetici1 = Yonetici("Bireysel Bankacılık", "Süleyman", "Çakır", 1974, "Çanakkale", "Sabancı Universitesi",
+                     "Endüstri Mühendisliği", "Sorbonne Economie", 24, 50000)
+yonetici2 = Yonetici("Hukuk ve Yasal Takip", "Nizamettin", "Güvenç", 1975, "İzmir", "İstanbul Üniversitesi", "Hukuk",
+                     "Harvard School of Law", 21, 50000)
+yonetici3 = Yonetici("Hazine Yönetimi", "Nedim", "Malik", 1968, "Muğla", "Boğaziçi Universitesi", "Ekonomi",
+                     "London School Of Economics", 24, 50000)
+yonetici4 = Yonetici("Kurumsal, Ticari, KOBİ ve Perakende Bankacılığı", "Canan", "Kazancı", 1984, "Antalya",
+                     "Galatasaray Universitesi", "Ekonomi", "Galatasaray Universitesi Ekonomi", 17, 50000)
+yonetici5 = Yonetici("Uluslararası Bankacılık", "Samuel", "Vanunu", 1972, "Roma", "Politecnico Di Milano",
+                     "Isletme Muhendisligi", "Harvard MBA", 29, 50000)
+yonetici6 = Yonetici("Bilgi Teknolojileri ve Operasyonel İşlemler", "Tuncay", "Kantarcı", 1988, "Şanlıurfa", "ODTU",
+                     "Bilgisayar Muhendisligi", "MIT CS", 8, 50000)
+yonetici7 = Yonetici("İnsan Kaynakları ve Kurumsal Gelişim", "Safiye", "Karahanlı", 1985, "Tokat", "Koc Universitesi",
+                     "Isletme", "Boğaziçi MBA", 11, 50000)
+Tum_Yoneticiler = [yonetici1, yonetici2, yonetici3, yonetici4, yonetici5, yonetici6, yonetici7]
+
+
+# YONETİCİ CLASSINDAN MİRAS ALARAK CEO YARATIYORUZ
+class Ceo(Yonetici):
+    def __init__(self, departman, isim, soyisim, dogum_yili, dogum_yeri, bitirdigi_okul, bitirdigi_bolum, master,
+                 kac_yildir_burada_calisiyor, maas):
+        super().__init__(departman, isim, soyisim, dogum_yili, dogum_yeri, bitirdigi_okul, bitirdigi_bolum, master,
+                         kac_yildir_burada_calisiyor, maas
+                         )
+
+    def calisan_ekle(self, calisan):  # CEOYA YÖNETİCİLERİ BAĞLAYACAĞIZ
+        if calisan not in self.calisanlar:
+            self.calisanlar.append(calisan)
+
+    def calisanlari_goster(self):  # CEONUN ALTINDA OLAN ÇALIŞANLARI GOSTERİR
+        for calisan in self.calisanlar:
+            print(calisan.bilgileri_goster())
+
+    def bilgileri_goster(self):  # CEONUN KİŞİSEL BİLGİLERİNİ GÖSTERİR
+        return "Departman : {} / Isim : {}  / Soyisim : {} / Dogum Yili : {} / Dogum Yeri : {} / Bitirdigi Okul : {} / Bitirdigi Bolum : {} / Kaç Yıldır Burada : {} / Master : {} / Email : {} / Maas : {}".format(
+            self.departman, self.isim, self.soyisim, self.dogum_yili, self.dogum_yeri, self.bitirdigi_okul,
+            self.bitirdigi_bolum, self.master, self.kac_yildir_burada_calisiyor, self.email, self.maas)
+
+
+# CEO YARATIYORUZ VE CEONUN ÇALIŞANLARINA YÖNETİCİLERİ EKLİYORUZ
+ceo = Ceo("CEO", "Polat", "Alemdar", 1973, "Artvin", "Galatasaray Universitesi", "Endustri Muhendisligi",
+          "Sorbonne MBA", 30, 100000)
+ceo.calisan_ekle(yonetici1)
+ceo.calisan_ekle(yonetici2)
+ceo.calisan_ekle(yonetici3)
+ceo.calisan_ekle(yonetici4)
+ceo.calisan_ekle(yonetici5)
+ceo.calisan_ekle(yonetici6)
+ceo.calisan_ekle(yonetici7)
+
+# YONETİCİLERİN ALTINA YERLEŞTİRMEK İÇİN ÇALIŞANLAR YARATIYORUZ
+calisan1 = Calisan("Yalçın", "Güneş", 1993, "Konya", "Bahçeşehir Üniversitesi", "İşletme", 5, 15000)
+calisan2 = Calisan("Elif", "Eylül", 1995, "Bursa", "Galatasaray Üniversitesi", "Hukuk", 3, 15000)
+calisan3 = Calisan("Nergiz", "Kara", 1989, "Lefkoşa", "Girne Amerikan Üniversitesi", "Bankacılık ve Finans", 9, 15000)
+calisan4 = Calisan("Ziya", "Yılmaz", 1968, "Rize", "KTÜ", "Lojistik Yönetimi", 35, 30000)
+calisan5 = Calisan("Aslan", "Akbey", 1973, "Kırıkkale", "Bilkent Üniversitesi", "Uluslararası İlişkiler", 21, 20000)
+calisan6 = Calisan("Eren", "Candan", 1995, "Bursa", "ITU", "Bilgisayar Mühendisliği", 3, 15000)
+calisan7 = Calisan("Esra", "Bulut", 1993, "Ankara", "Bilgi Üniversitesi", "Medya ve İletişim", 6, 15000)
+calisan8 = Calisan("Nazlı", "Bekir", 1989, "Aydın", "Koç Üniversitesi", "Ekonomi", 8, 15000)
+calisan9 = Calisan("Ali", "Kılıç", 1985, "Edirne", "Bilkent Üniversitesi", "İşletme", 11, 15000)
+calisan10 = Calisan("Mehmet", "Çolak", 1998, "Muş", "Boğaziçi Üniversitesi", "Endüstri Mühendisliği", 2, 15000)
+calisan11 = Calisan("Ahu", "Toros", 1987, "Adana", "ODTÜ", "İşletme", 7, 15000)
+calisan12 = Calisan("Eda", "Sinanoğlu", 1993, "Trabzon", "İstanbul Üniversitesi", "Siyaset Bilimi ve Kamu Yönetimi", 4,
+                    15000)
+calisan13 = Calisan("Bahar", "Tezcan", 1992, "Balıkesir", "Yıldız Teknik Üniversitesi", "Makine Mühendisliği", 14,
+                    15000)
+calisan14 = Calisan("Ezel", "Bayraktar", 1981, "İstanbul", "Galatasaray Üniversitesi", "İletişim", 13, 15000)
+
+# ÇALIŞANLARI YÖNETİCİLERE EKLİYORUZ
+yonetici1.calisan_ekle(calisan1)
+yonetici1.calisan_ekle(calisan8)
+yonetici2.calisan_ekle(calisan2)
+yonetici2.calisan_ekle(calisan9)
+yonetici3.calisan_ekle(calisan3)
+yonetici3.calisan_ekle(calisan10)
+yonetici4.calisan_ekle(calisan4)
+yonetici4.calisan_ekle(calisan11)
+yonetici5.calisan_ekle(calisan5)
+yonetici5.calisan_ekle(calisan12)
+yonetici6.calisan_ekle(calisan6)
+yonetici6.calisan_ekle(calisan13)
+yonetici7.calisan_ekle(calisan7)
+yonetici7.calisan_ekle(calisan14)
+
+
+# EK OLARAK BİR YAZILIMCI CLASSI AÇIYORUZ VE BU YAZILIMCILARI YÖNETİCİ6'YA EKLEYECEĞİZ
+class Yazilimci(Calisan):
+    def __init__(self, isim, soyisim, dogum_yili, dogum_yeri, bitirdigi_okul, bitirdigi_bolum,
+                 kac_yildir_burada_calisiyor, yazilim_dili, maas):
+        super().__init__(isim, soyisim, dogum_yili, dogum_yeri, bitirdigi_okul, bitirdigi_bolum,
+                         kac_yildir_burada_calisiyor, maas)
+        self.yazilim_dili = yazilim_dili
+
+    def bilgileri_goster(self):  # KİŞİSEL BİLGİLERİ GÖSTERİR
+        return "Isim : {}  / Soyisim : {} / Dogum Yili : {} / Dogum Yeri : {} / Bitirdigi Okul : {} / Bitirdigi Bolum : {} / Kaç Yıldır Burada : {} / Email : {} / Yazılım Dili : {} / Maaş : {}".format(
+            self.isim, self.soyisim, self.dogum_yili, self.dogum_yeri, self.bitirdigi_okul, self.bitirdigi_bolum,
+            self.kac_yildir_burada_calisiyor, self.email, self.yazilim_dili, self.maas)
+
+    def bildigi_yazilim_dilleri(self):
+        return f"Bildiği dil : {self.yazilim_dili}"
+
+
+# YAZILIMCILARI OLUŞTURUYORUZ
+yazilimci1 = Yazilimci("Ilgın", "Çetin", 2000, "Ankara", "ODTU", "Bilgisayar Mühendisliği", 2, "Python,Java,R", 25000)
+yazilimci2 = Yazilimci("Merve", "Öztürk", 1991, "Tekirdağ", "Galatasaray Üniversitesi", "Endüstri Mühendisliği", 7,
+                       "Python,C,MATLAB,SQL", 25000)
+# OLUSTURDUĞUMUZ YAZILIMCILARI BİLGİ TEKNOLOJİLERİ DEPARTMANINA ATIYORUZ
+yonetici6.calisan_ekle(yazilimci1)
+yonetici6.calisan_ekle(yazilimci2)
+
+
+
+
+
+
+
+#BURADA MÜŞTERİ CLASSINI YARATIYORUZ.
+class müsteri():
+    def __init__(self, isim, soyisim, tckn, bankadakiParasi, nakit):
+        self.isim = isim
+        self.soyisim = soyisim
+        self.tckn = tckn
+        self.bankadakiParasi = bankadakiParasi
+        self.nakit = nakit
+
+    def malVarligi(self):
+        print(f" {self.isim} Bey/ Hanımın toplam mal varlığı = {self.nakit + self.bankadakiParasi} TL")
+
+
+
+
+# zengin müşterilerle ilgilenmesi için genel merkezimize birkaç veznedar ekleyeceğiz bunlar genel merkeze gelen vip müşterilerin hesaplarıyla ilgilenecek. Bu amaçla veznedar class'ını yaratıyoruz.
+class Veznedar():
+    def __init__(self, isim, soyisim, dogum_yili, dogum_yeri,kac_yildir_burada_calisiyor, maas,kasasindakiPara = None,müsterileri = " "):
+        self.isim = isim
+        self.soyisim = soyisim
+        self.dogum_yili = dogum_yili
+        self.dogum_yeri = dogum_yeri
+        self.kac_yildir_burada_calisiyor = kac_yildir_burada_calisiyor
+        self.maas = maas
+        self.kasasindakiPara = kasasindakiPara
+        self.müsterileri = müsterileri
+        Calisan.calisanSayisi +=1
+
+    def kasayaParaGirdi(self, miktar, müsteri):  #müşteri kasasına para yatıracağında çağırılacak fonksiyon.
+        if müsteri.nakit >= miktar : #Eğer müşterinin parası yatırmak istediği tutardan fazla ise çalışmaz.
+            müsteri.nakit = müsteri.nakit - miktar
+            self.kasasindakiPara = self.kasasindakiPara + miktar
+            müsteri.bankadakiParasi = müsteri.bankadakiParasi + miktar
+        else:
+            print(f"{müsteri.isim} Bey/ Hanımın bu işlem için yeterli parası yok. ")
+
+    def kasadanParaCikti(self, miktar, müsteri): #müşteri kasasından para çekeceğince çağırılacak fonksiyon.
+        if müsteri.bankadakiParasi >= miktar: # Eğer müşterinin kasasındaki para yetersiz ise çalışmaz.
+            müsteri.nakit = müsteri.nakit + miktar
+            self.kasasindakiPara = self.kasasindakiPara - miktar
+            müsteri.bankadakiParasi -= miktar
+        else:
+            print(f"{müsteri.isim} Bey/ Hanımın kasasında bu işlem için yeterli parası yok. ")
+
+#BURADA MÜŞTERİLERİ YARATIYORUZ.
+Müsteri1 = müsteri("José", "Saramago", "51190523378", 82000, 50000)
+Müsteri2 = müsteri("Kylian", "Mbappe", "12345423456", 99999, 40000)
+Müsteri3 = müsteri("Irmak", "Kahveci", "11790823378", 20000000, 1000)
+Müsteri4 = müsteri("Jonah", "Sara", "31290513488", 852000, 57800)
+Müsteri5 = müsteri("Hasan", "Sezgin", "78140583178", 2000, 25000)
+Müsteri6 = müsteri("Emel", "Sargın", "91190453378", 552000, 300)
+Müsteri7 = müsteri("Ahmet", "Güzel", "71296573568", 65040, 26540)
+Müsteri8 = müsteri("Ezgi", "Süleyman", "90148553498", 320750, 5400)
+Müsteri9 = müsteri("Olcay", "Olgun", "55896553577", 800, 50)
+Müsteri11 = müsteri("Ozan", "Suratsız", "26557523928", 2000, 5000)
+Müsteri12 = müsteri("Tarık", "Bayremişli", "10255283378", 652894000, 80000)
+
+veznedar = Veznedar("Süleyman", "Veli", 1968, "Muğla", 20, 25000, 250000, "müsteri1, müsteri2, müsteri3")
+veznedar2 = Veznedar("Taşkın", "Dursun", 1975, "Muğla", 10, 20000, 200000, "müsteri4,müsteri5,müsteri6")
+veznedar3= Veznedar("Derya", "Yılmaz", 1982, "Muğla", 5, 15000, 150000, "müsteri7,müsteri8,müsteri9")
+veznedar4 = Veznedar("Eren", "Solgun", 1970, "Muğla", 22, 25000, 250000, "müsteri10,müsteri11,müsteri12")
+
+
+#bu class seçilen müşterilin ortak hesaba geçmek istemesi takdirinde sahip oldukları parayı görmeye yarıyor.Gelişmiş aşamalarda buradan toplanılan paralar ve müşteri isimleri ile birlikte BirlikteHayatBirlikteHesap class'ı oluşturalacak ve kullanıcalar tek bir hesabı birlikte yönetebilecekler.
+
+class ortak_hesap:
+    def __init__(self,val):
+        self.val = val
+    def __add__(self, val2):
+        return ortak_hesap(self.val + val2.val)
+
+    def hesaptoplama(musteri1, musteri2):
+        k = ortak_hesap(musteri1.bankadakiParasi)
+        t = ortak_hesap(musteri2.bankadakiParasi)
+        toplampara = k + t
+
+        print(musteri1.isim , " ve " ,musteri2.isim, " toplamda ", toplampara.val ,"Tl'ye sahiptir")
+
+        
+        
+
+Calisan.kac_calisan_var()
+
+
+print(Calisan.bilgileri_goster(calisan1))
+
+calisan1.maasZammi(20)
+
+print(calisan1.maas)
+
+
+
+
+yonetici1.calisanlari_goster()
+
+
+yonetici1.calisan_sil(calisan1)
+
+yonetici1.calisanlari_goster()
+
+yonetici1.calisan_ekle(calisan1)
+
+
+yonetici1.calisanlari_goster()
+
+
+
+
+
+print(yazilimci1.bildigi_yazilim_dilleri())
+
+
+
+
+print(f"{Müsteri1.isim} Bey/Hanım'ın nakit parası = {Müsteri1.nakit} , {Müsteri1.isim} Bey/Hanım'ın Bankadaki parası = {Müsteri1.bankadakiParasi}")
+Müsteri1.malVarligi()
+print(veznedar.kasasindakiPara)
+veznedar.kasadanParaCikti(50000,Müsteri1)
+print(f"{Müsteri1.isim} Bey/Hanım'ın nakit parası = {Müsteri1.nakit} , {Müsteri1.isim} Bey/Hanım'ın Bankadaki parası = {Müsteri1.bankadakiParasi}")
+print(veznedar.kasasindakiPara)
+veznedar.kasadanParaCikti(50000,Müsteri1)
+veznedar.kasayaParaGirdi(70000,Müsteri1)
+print(f"{Müsteri1.isim} Bey/Hanım'ın nakit parası = {Müsteri1.nakit} , {Müsteri1.isim} Bey/Hanım'ın Bankadaki parası = {Müsteri1.bankadakiParasi}")
+
+
+
+
+
+ortak_hesap.hesaptoplama(Müsteri2, Müsteri1)
